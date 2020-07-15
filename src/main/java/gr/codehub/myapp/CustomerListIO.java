@@ -16,6 +16,9 @@ public class CustomerListIO {
 
     public List<Customer> readFromExcel(String filename) throws IOException, InvalidFormatException {
 
+
+        List<Customer> customers = new ArrayList<>();
+
          // Creating a Workbook from an Excel file (.xls or .xlsx)
          Workbook workbook = WorkbookFactory.create(new File(filename));
 
@@ -30,11 +33,21 @@ public class CustomerListIO {
 
          //   Or you can use a for-each loop to iterate over the rows and columns
          System.out.println("\n\nIterating over Rows and Columns using for-each loop\n");
+         String []elements= new String [4];
+         int i=0;
          for (Row row: sheet) {
+
              for(Cell cell: row) {
                  String cellValue = dataFormatter.formatCellValue(cell);
+                 elements[i++]=cellValue;
                  System.out.print(cellValue + "\t");
              }
+             Customer c = new Customer()
+                     .setFirstName(elements[0])
+                     .setLastName(elements[1])
+                     .setBalance(Double.parseDouble(elements[2]));
+             customers.add(c);
+             i=0;
              System.out.println();
          }
 
